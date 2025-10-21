@@ -26,12 +26,11 @@ class RecommenderForm(FlaskForm):
 
 # --- Form for Page 3: Optimizer (Final Version) ---
 class OptimizerForm(FlaskForm):
-    # This is now a flexible numerical input
     strength = FloatField('Target Characteristic Strength (MPa, at 28 days)',
                           validators=[InputRequired(), NumberRange(min=5, max=100)],
                           default=30)
 
-    # Optional additives with toggles
+    # toggles
     use_slag = BooleanField('Include Blast Furnace Slag')
     slag = FloatField('Slag (kg/m³)', validators=[Optional(), NumberRange(min=0)], default=0)
 
