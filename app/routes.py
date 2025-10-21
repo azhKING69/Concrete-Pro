@@ -8,15 +8,15 @@ from ml_model.config import RECOMMENDER_MATERIAL_PRICES, OPTIMIZER_MATERIAL_PRIC
 
 main = Blueprint('main', __name__)
 
-# --- NEW Route for Homepage ---
+# --- Route for Homepage ---
 @main.route('/')
 def home():
     """Route for the new homepage."""
     return render_template('home.html', title='Welcome')
 
-# --- Route for Page 1: Predictor (Moved to /predict) ---
+# --- Route for Page 1: Predictor ---
 @main.route('/predict', methods=['GET', 'POST'])
-def predict(): # Renamed function for clarity
+def predict(): 
     form = PredictionForm()
     prediction = None
     if form.validate_on_submit():
@@ -30,7 +30,7 @@ def predict(): # Renamed function for clarity
             prediction = predict_strength(features)
         except Exception as e:
             flash(f'An error occurred: {e}', 'danger')
-    # Render index.html, but the route is now /predict
+    
     return render_template('index.html', title='Strength Predictor', form=form, prediction=prediction)
 
 # --- Route for Page 2: Recommender ---
