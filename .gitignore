@@ -10,9 +10,3 @@ venv/
 env/
 .env
 
-# Instance folder (can contain secrets)
-instance/
-
-# OS-specific
-.DS_Store
-Thumbs.db
