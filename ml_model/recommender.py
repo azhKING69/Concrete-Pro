@@ -1,6 +1,5 @@
 # ml_model/recommender.py
 # This file contains the logic for the Design-Mix Recommender.
-# CORRECTED: It now imports and uses the correct price dictionary.
 
 # The import is now correct
 from ml_model.config import DESIGN_MIX_TABLE, RECOMMENDER_MATERIAL_PRICES
