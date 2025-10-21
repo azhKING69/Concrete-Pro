@@ -8,8 +8,6 @@ scikit-learn
 numpy
 scipy
 
-# Production Server (for Render)
-gunicorn
 
-# Utility
+gunicorn
 python-dotenv
