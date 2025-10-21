@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1 class="mb-4">Concrete Strength Predictor</h1>
+    <p>Enter the components of your concrete mix to predict its compressive strength using our Machine Learning model.</p>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card card-body">
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <div class="row">
+                        {% macro render_field(field) %}
+                            <div class="col-md-6 mb-3">
+                                {{ field.label(class="form-label") }}
+                                {{ field(class="form-control") }}
+                                {% if field.errors %}
+                                    <div class="invalid-feedback d-block">{{ field.errors[0] }}</div>
+                                {% endif %}
+                            </div>
+                        {% endmacro %}
+                        {{ render_field(form.cement) }}
+                        {{ render_field(form.slag) }}
+                        {{ render_field(form.fly_ash) }}
+                        {{ render_field(form.water) }}
+                        {{ render_field(form.superplasticizer) }}
+                        {{ render_field(form.coarse_aggregate) }}
+                        {{ render_field(form.fine_aggregate) }}
+                        {{ render_field(form.age) }}
+                    </div>
+                    <div class="mt-3">
+                        {{ form.submit(class="btn btn-primary btn-lg") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+            {% if prediction %}
+                <div class="card text-center sticky-top" style="top: 80px;">
+                    <div class="card-header">Prediction Result</div>
+                    <div class="card-body">
+                        <h3 class="card-title">Predicted Strength</h3>
+                        <h1 class="display-4 fw-bold text-primary">{{ prediction }}</h1>
+                        <p class="card-text">MPa</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

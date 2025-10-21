@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="mb-4">Hybrid ML Mix Optimizer</h1>
+    <p>This tool uses a powerful hybrid approach. It starts with a reliable mix from a standard design table (like the Recommender) and then uses a Machine Learning model to intelligently fine-tune it for minimum cost. If the ML model cannot find a better solution, it will return the reliable baseline mix.</p>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card card-body">
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <h5 class="text-primary">Design Requirement</h5>
+                    <hr>
+                    <div class="mb-3">
+                        {{ form.strength.label(class="form-label") }}
+                        {{ form.strength(class="form-control") }}
+                        {% if form.strength.errors %}
+                            <div class="invalid-feedback d-block">{{ form.strength.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <h5 class="mt-4 text-primary">Optional Additives (Fixed Inputs)</h5>
+                    <hr>
+                    <div class="form-check form-switch">
+                        {{ form.use_slag(class="form-check-input", role="switch", id="use_slag") }}
+                        {{ form.use_slag.label(class="form-check-label") }}
+                    </div>
+                    <div class="mb-3">{{ form.slag(class="form-control form-control-sm", id="slag") }}</div>
+
+                    <div class="form-check form-switch">
+                        {{ form.use_fly_ash(class="form-check-input", role="switch", id="use_fly_ash") }}
+                        {{ form.use_fly_ash.label(class="form-check-label") }}
+                    </div>
+                    <div class="mb-3">{{ form.fly_ash(class="form-control form-control-sm", id="fly_ash") }}</div>
+
+                    <div class="form-check form-switch">
+                        {{ form.use_superplasticizer(class="form-check-input", role="switch", id="use_superplasticizer") }}
+                        {{ form.use_superplasticizer.label(class="form-check-label") }}
+                    </div>
+                    <div class="mb-3">{{ form.superplasticizer(class="form-control form-control-sm", id="superplasticizer") }}</div>
+
+                    {{ form.submit(class="btn btn-primary w-100 mt-3") }}
+                </form>
+            </div>
+
+            <div class="card card-body mt-4">
+                <h5>Optimized Material Prices</h5>
+                <ul class="list-group list-group-flush">
+                    {% for material, price in prices.items() %}
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>{{ material.replace("_", " ").title() }}</span>
+                            <strong>₹ {{ price }}/kg</strong>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            {% if results and results.success %}
+                <div class="card">
+                    <div class="card-header">
+                        {% if results.was_fine_tuned %}
+                            <h3 class="text-success"><i class="bi bi-robot"></i> ML Fine-Tuned Mix Found!</h3>
+                        {% else %}
+                            <h3 class="text-info"><i class="bi bi-table"></i> Reliable Baseline Mix (Fallback)</h3>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row text-center my-3">
+                            <div class="col-6 col-lg-4">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Estimated Cost</h6>
+                                        <h3 class="fw-bold text-success">₹ {{ "%.2f"|format(results.cost) }}</h3>
+                                        <p class="card-text small">per m³ (Cement+Agg.)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-lg-4">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Strength</h6>
+                                        <h3 class="fw-bold">{{ "%.2f"|format(results.predicted_strength) }}</h3>
+                                        {% if results.was_fine_tuned %}
+                                            <p class="card-text small">Predicted (Target Mean: {{ "%.2f"|format(results.target_mean_strength) }} MPa)</p>
+                                        {% else %}
+                                            <p class="card-text small">Characteristic (Target: {{ form.strength.data }} MPa)</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-4 mt-2 mt-lg-0">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title">w/c Ratio</h6>
+                                        <h3 class="fw-bold">{{ "%.2f"|format(results.wc_ratio_used) }}</h3>
+                                        <p class="card-text small">(Used for Design)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4">Final Mix Ratio (Cement : Water : Fine Agg : Coarse Agg)</h4>
+                        <div class="alert alert-primary text-center">
+                            <h2 class="display-6 fw-bold">
+                                1 :
+                                {{ "%.2f"|format(results.mix_ratio['Water']) }} :
+                                {{ "%.2f"|format(results.mix_ratio['Fine Aggregate']) }} :
+                                {{ "%.2f"|format(results.mix_ratio['Coarse Aggregate']) }}
+                            </h2>
+                        </div>
+
+                        <h4 class="mt-4">Quantities per m³ of Concrete</h4>
+                        <table class="table table-striped">
+                            <tbody>
+                                {% for component, quantity in results.mix_kg.items() %}
+                                <tr>
+                                    <td><strong>{{ component.replace("Fine Aggregate", "Sand").replace("Coarse Aggregate", "Gravel") }}</strong></td>
+                                    <td>{{ "%.2f"|format(quantity) }} kg</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

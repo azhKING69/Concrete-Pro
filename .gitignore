@@ -1,0 +1,18 @@
+# Python general
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.venv/
+env/
+.env
+
+# Instance folder (can contain secrets)
+instance/
+
+# OS-specific
+.DS_Store
+Thumbs.db

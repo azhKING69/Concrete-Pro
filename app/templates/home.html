@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="px-1 py-1 my-0 text-center">
+    <h1 class="display-5 fw-bold text-body-emphasis">Concrete Pro </h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">Your intelligent toolkit for concrete mix design and analysis. Explore our features below to predict strength, get standard mix recommendations, or find cost-optimized designs using Machine Learning.</p>
+    </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col">
+        <div class="card h-100 text-center shadow-sm">
+            <div class="card-body d-flex flex-column">
+                <h2 class="card-title text-primary"><i class="bi bi-graph-up-arrow"></i> Strength Predictor</h2>
+                <p class="card-text flex-grow-1">Input your mix proportions (cement, aggregates, water, admixtures, age) and let our Machine Learning model predict the resulting compressive strength.</p>
+                <a href="{{ url_for('main.predict') }}" class="btn btn-primary mt-auto">Go to Predictor</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card h-100 text-center shadow-sm">
+            <div class="card-body d-flex flex-column">
+                <h2 class="card-title text-success"><i class="bi bi-table"></i> Mix Recommender</h2>
+                <p class="card-text flex-grow-1">Select a standard concrete grade (e.g., M25, M40) to get a reliable, cost-effective baseline mix design based on established engineering practices and tables.</p>
+                <a href="{{ url_for('main.recommend') }}" class="btn btn-success mt-auto">Go to Recommender</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card h-100 text-center shadow-sm">
+            <div class="card-body d-flex flex-column">
+                <h2 class="card-title text-warning"><i class="bi bi-robot"></i> ML Optimizer</h2>
+                <p class="card-text flex-grow-1">Enter your target strength and optional additives. Our hybrid ML optimizer starts with a baseline mix and intelligently fine-tunes it for minimum cost while meeting your requirements.</p>
+                <a href="{{ url_for('main.optimize') }}" class="btn btn-warning mt-auto">Go to Optimizer</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

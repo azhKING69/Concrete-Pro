@@ -1,0 +1,15 @@
+body {
+    padding-top: 70px; /* Adjust as needed based on your navbar height */
+    background-color: #f8f9fa;
+    font: 1em sans-serif;
+}
+
+main.container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* Optional: Ensure cards on homepage have some space */
+.card {
+    margin-bottom: 1.5rem;
+}

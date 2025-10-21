@@ -1,0 +1,15 @@
+# Flask Framework
+Flask
+Flask-WTF
+
+# ML & Data Handling
+xgboost
+scikit-learn
+numpy
+scipy
+
+# Production Server (for Render)
+gunicorn
+
+# Utility
+python-dotenv
