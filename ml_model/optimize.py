@@ -1,5 +1,4 @@
 # ml_model/optimize.py
-# FINAL VERSION: Fixes a key inconsistency in the fallback logic.
 
 import numpy as np
 from scipy.optimize import minimize, NonlinearConstraint, Bounds
